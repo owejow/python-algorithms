@@ -1,18 +1,39 @@
+# Python Study
 
-# Object Oriented Programming
+## Object Oriented Programming
 
-- [Object Oriented Programming](#object-oriented-programming)
-  - [Goals, Principles, and patterns](#goals-principles-and-patterns)
+- [Python Study](#python-study)
+  - [Object Oriented Programming](#object-oriented-programming)
+    - [Goals, Principles, and patterns](#goals-principles-and-patterns)
     - [Design Goals](#design-goals)
     - [Oject-Oriented Design Principles](#oject-oriented-design-principles)
     - [Design Patterns](#design-patterns)
     - [Coding Sytle and Documentation](#coding-sytle-and-documentation)
     - [Testing and Debugging](#testing-and-debugging)
-  - [Class Definitions](#class-definitions)
-    - [Example Class Iterator Class](#example-class-iterator-class)
-- [sample class with explicit iterator](#sample-class-with-explicit-iterator)
+    - [Class Definitions](#class-definitions)
+      - [Example Class Iterator Class](#example-class-iterator-class)
+      - [self identifier](#self-identifier)
+      - [constructor](#constructor)
+      - [Testing the Class](#testing-the-class)
+    - [Operator Overloading and Non-operator overloading](#operator-overloading-and-non-operator-overloading)
+      - [non-operator overloading methods](#non-operator-overloading-methods)
+      - [overloading methods](#overloading-methods)
+      - [Implied methods](#implied-methods)
+      - [Example Vector Class](#example-vector-class)
+    - [Iterators](#iterators)
+      - [Range Class](#range-class)
+    - [Inheritance](#inheritance)
+      - [Exception hierarchy](#exception-hierarchy)
+      - [Extending a class](#extending-a-class)
+      - [Numeric Progression Hierarchy](#numeric-progression-hierarchy)
+      - [Abstract Base Class](#abstract-base-class)
+      - [Namespace and Object-Orientation](#namespace-and-object-orientation)
+      - [Nested Classes](#nested-classes)
+      - [Dictionaries and the \_\_slots\_\_ declaration](#dictionaries-and-the-slots-declaration)
+      - [Name Resolution and Dynamic Dispatch](#name-resolution-and-dynamic-dispatch)
+    - [Shallow and Deep Copying](#shallow-and-deep-copying)
 
-## Goals, Principles, and patterns
+### Goals, Principles, and patterns
 
 - **objects**: main actors in object oriented paradigm
 - objects are an instance of a class
@@ -111,7 +132,7 @@ Programs should be easy to read and maintain. Suggestions for coding in python:
       the execution of a program.
       - **breakpoint** insertion withing the code
 
-## Class Definitions
+### Class Definitions
 
 - **class**: primary means for abstraction in object oriented programming
 
@@ -119,7 +140,7 @@ Programs should be easy to read and maintain. Suggestions for coding in python:
 - **attributes** used by class to store state information
 - **attributes** are also known as **fields**, **instance variables**, or **data members**
 
-### Example Class Iterator Class
+#### Example Class Iterator Class
 
 ```python
 class CreditCard:
@@ -169,16 +190,17 @@ class CreditCard:
     def make_payment(self, amount):
         """process customer payment that reduces balance."""
         self._balance -= amount
+```
 
-### self identifier
+#### self identifier
 
 **self**: syntactically identifies the instance upon which method is invoked.
 
-* each instance get's its own "self" variable
-* method get_balance takes zero parameters from the user's perspective.
-  * interpreter automatically binds the first parameter "self" to the instance which the method is invoked
+- each instance get's its own "self" variable
+- method get_balance takes zero parameters from the user's perspective.
+  - interpreter automatically binds the first parameter "self" to the instance which the method is invoked
 
-### constructor
+#### constructor
 
 - syntax to instantiate the credit card class
 
@@ -191,12 +213,12 @@ single leading underscore in the name implies that the method is intended for **
 - better to make data members nonpublic by default:
   - provide appropriate update methods
 
-### Testing the Class
+#### Testing the Class
 
 - **method coverage**: percentage of methods that are tested
 - **statement coverage**: percentage of statements that are tested
 
-## Operator Overloading and Non-operator overloading
+### Operator Overloading and Non-operator overloading
 
 **operator overloading**: use specially named methods to define class behavior when invoked with operators such as "+"
 
@@ -207,14 +229,14 @@ Example operators:
   - mixed operations of existing class (if it doesn't define the behavior) with the newly created class
 - \_\_add\_\_: '+' (i.e. add)
 
-### non-operator overloading methods
+#### non-operator overloading methods
 
 **__str__**: method in user defined classes determines how the class
 will be displayed by the **str(foo)** method
 
 Other methods determine how a class can be converted to a boolean, float or other operator.
 
-### overloading methods
+#### overloading methods
 
 | Common Syntax      | Method Form                                      |
 | ------------------ | ------------------------------------------------ |
@@ -284,7 +306,7 @@ method. The a == b will take on behavior of **a** is **b**.
 
 undefined **\_\_bool\_\_** method evaluates to False for None and True for all other objects.  It also evaluates to False for objects that have \_\_len\_\_ value of zero and True otherwise.
 
-### Example Vector Class
+#### Example Vector Class
 
 ```python
     v = Vector(5)  # construct a five dimensional vector <0, 0, 0, 0, 0>
@@ -363,9 +385,282 @@ class SequenceIterator():
     return self
 ```
 
-### Range Class
+#### Range Class
 
 **lazy evaluation** represens entire range of objects in memory without having to create them
 
 ```python
+
+  class Range:
+    """A class that mimic's the built-in range class"""
+
+    def __init__(self, start, stop=None, step=1):
+      if step == 0:
+        raise ValueError('step can not be 0')
+
+      if stop is None:
+        start, stop = 0, start
+
+
+      self._length = max(0, (stop - start + step - 1) // step )
+
+      self._start = start
+      self.step = step
+
+    def __len__(self):
+      return self._length
+
+
+    def __getitem__(self, k):
+      if k < 0:
+        k += len(self)
+      if not 0 <= k < self._length:
+        raise IndexError('index out of range')
+      return self._start + k * self._step
+
+```
+
+### Inheritance
+
+- **hierarchical** similar abstract definitions grouped together level by level in the hierarchy
+- **inheritance** allows a new class to be defined based on an existing class
+- **terminology**:
+  - **base class**
+  - **parent class**
+  - **super class**
+  - **subclass** or **child class**: newly defined classes relationship to the **parent class**
+- **differentiation**: subclass can differentiate itself from parent class
+  - **specialize** existing behavior by **overriding** existing method
+  - **extend** superclass to add additional functionality
+
+#### Exception hierarchy
+
+```mermaid
+graph TD;
+    SystemExit--> BaseException;
+    Exception --> BaseException;
+    KeyboardInterrupt --> BaseException;
+    ValueError --> Exception;
+    LookupError --> Exception;
+    ArithmeticError --> Exception;
+    ZeroDivisionError --> ArithmeticError;
+    IndexError --> LookupError;
+    KeyError --> LookupError;
+```
+
+- **BaseException** class is root for all exceptions
+- **Exception** class contains majority of common exceptions
+
+#### Extending a class
+
+- **specify inheritance** place class definition in the **class** declarations
+- **super** need to call inherited constructor to ensure proper initialization
+- **protected** members are accessible to subclasses but not general public. A single underscore in front of identifier by convention specifies a protected identifier. Python has no formal enforcement
+- **private** members are not accessible to public or subclasses. A double underscore designates these methods.
+
+```python
+  # class PredatoryClass inherits from CreditCard class
+  class PredatoryCardClass(PredatoryClass)
+  
+    def __init__(customer, bank, actn, limit, apr):
+
+      # call the inherited constructor
+      super().__init__(customer, bank, acnt, limit)
+      self._apr = apr
+
+    # method overrides charge method in th parent
+    def charge(self, price):
+      # use super() to gain access to parent's charge
+      success = super().charge(price)
+      if not success:
+        self._balance += 5
+      return success
+
+    # new behavior that does not require inheritance
+    def process_month(self):
+      # _balance is protected naming convention and is ok to access with subclass
+      if self._balance > 0:
+        monthly_factor = pow(1 + self._apr, 1/12)
+        self._balance *= monthly_factor
+```
+
+#### Numeric Progression Hierarchy
+
+```mermaid
+graph TD;
+  ArithmeticProgression --> Progression;
+  GeometricProgression --> Progression;
+  FibonacciProgression --> Progression;
+```
+
+```python
+  class Progression:
+    def __init__(self, start=0):
+      self._current = start
+
+    def _advance(self):
+      self._current += 1
+
+    def __next__(self):
+      if self._current is None:  # our convention to end progression
+        raise StopIteration()
+      else:
+        answer = self._current
+        self.advance()
+        return answer
+
+    def __iter__(self):
+      # by convention return self for iterator
+      return self
+
+    def print_progression(self, n):
+      print(' '.join(str(next(self)) for j in range(n)))
+```
+
+```python
+  class ArithmeticProgression(Progression):
+    def __init__(self, increment=1, start=0)
+      super().__init__(start)  # initialize base class
+      self._increment = increment
+
+    def _advance(self):
+      self._current += self.increment
+```
+
+```python
+  class GeometricProgression(Progression):
+    def __init__(self, base=2, start=1):
+      super().__init__(start)
+      self._base = base
+
+    def _advance(self):  # override inherited version
+      self._current *= self._base
+```
+
+```python
+  class FibonacciProgression(Progression):
+    def __init__(self, first=0, second=1):
+      super().__init__(first)  # start progression at first
+      self._prev = second - first
+
+    def _advance(self):
+      self._prev, self._current = self._current, self._prev + self._current # simultaneous assignment
+```
+
+#### Abstract Base Class
+
+- **abstract base class** a class whose only purpose is to serve as a base class through inheritance
+- **concrete class** a class that can be instantiated
+- **abc** module defines formal method of defining abstract base class.
+- **template method pattern** abstract base class provides concrete behaviors that depend on calls to other abstract behaviors
+
+```python
+
+  from abc import ABCMeta, abstractmethod
+
+  # metaclass keyword: provides template for implementation
+  #     raises error if instantiated
+  class Sequence(metaclass=ABCMeta):
+
+    @abstractmethod # declares that method is not defined in base class
+    def __len__(self):
+      """returns length"""
+
+    @abstractmethod
+    def __getitem__(self, j):
+      """returns element at index j of sequence"""
+
+    def __contains__(self, val):
+      """Returns True if val found in sequence; False otherwise"""
+      for j in range(len(self)):
+        if self[j] == val:
+          return True
+        return False
+
+    def index(self, val):
+      for j in range(len(self)):
+        if self[j] == val:
+          return j
+      raise ValueError('value not in sequence)
+
+    def count(self, val):
+      k = 0
+      for j in range(len(self)):
+        if self[j] == val
+          k += 1
+        return k
+```
+
+#### Namespace and Object-Orientation
+
+- **namespace** an abstraction that managers all identifiers defined in a particular scope
+- **instance namespace** manages namespace of each individual object
+  - a single instance space per object
+  - use of "self" qualifier for an identifier causes identifier to be added to the instance namespace
+- **class namespace** managers members that are shared by all instances of a class without reference to any particular instance
+  - includes all declarations made directly in the body definition of the class
+- **class data members** used when a value that is shared by all instances of a class
+  - define identifier in the immediate scope of the class definition
+
+```python
+  class PredatoryCreditCard(CreditCard):
+    OVERLIMIT_FEE = 5
+
+    def charge(self, price):
+      success = super.charge(price)
+      if not success:
+        self._balance += PredatoryCreditCard.OVERLIMIT_FEE
+      return success
+```
+
+#### Nested Classes
+
+- **nest** possible to next one subclass inside another
+  - makes it clear subclass exists for supporting outer class
+  - reduces likelihood of name conflict
+  - allows for more advanced form of inheritance in which subclass of outer class overrides the definition of the nested clss
+
+#### Dictionaries and the \_\_slots\_\_ declaration
+
+- **by default** python represents each namespace with a built-in dictionary class
+  - dictionary requires additional memory usage beyond raw data for lookup
+- **\_\_slots\_\_** provides more streamlined representation for all instances of a class
+  - class defintion must provide a class member function "\_\_slots\_\_" that is assigned to a fixed sequence of strings that serve for the instance variable
+  - when using inheritance the base class declares \_\_slots\_\_, a subclass must also declare
+    \_\_slots\_\_ to avoid creation of instance dictionaries
+  - particularly useful when given class is expected to have many instances
+
+```python
+  class CreditCard:
+    __slots__ = '_customer', '_bank', '_account', '_balance', '_limit'
+```
+
+#### Name Resolution and Dynamic Dispatch
+
+- **retrieving** existing member of an object using the dot notation
+  1. instance namespace is searched; if name found its associated value is returned
+  1. if name is not found the class namespace for the class to which instance belongs is searched. if name is found its associated value is returned
+  1. if name is not found in the immediate class namespace, search continues upwards through the inheritance hierarchy, checking the class namespace for each ancestor (commonly by checking the superclass class, then its superclass and so on). The first time a name is found its associated value is used.
+  1. if the name has not still been found, an AttributeError is raised.
+  
+- **overriding**: existance of function in the subclass has effect of overriding the version of the function in the parent class
+- **dynamic dispatch** or **dynamic binding** used by python to call appropriate implementation of a function based on the type of object that it is invoked upon
+- **static dispatch** compile time decisions are made to determine what function to call based on the typ e of the declared variable
+
+### Shallow and Deep Copying
+
+- **alias** assignment statement makes an alias for the object
+  - foo = bar
+  - no **copy** of the original is made
+
+- **shallow copy** made by list() constructor. New list is initalized so that its contents are precisely the smae as the original sequence 
+  - lists are referential, so new list represents a sequence of references to the same elements as the first
+  - elements can be added or removed, however shallow copy list can be impacted by changes made to original objects
+
+- **deep copy**
+  - new copy references its own **copies** of those referenced in original version
+
+```python
+  import copy
+  palette = copy.deepcopy(warmtones)
 ```
