@@ -1,3 +1,4 @@
+
 # Object Oriented Programming
 
 - [Object Oriented Programming](#object-oriented-programming)
@@ -8,6 +9,7 @@
     - [Coding Sytle and Documentation](#coding-sytle-and-documentation)
     - [Testing and Debugging](#testing-and-debugging)
   - [Class Definitions](#class-definitions)
+    - [Example Class Iterator Class](#example-class-iterator-class)
 - [sample class with explicit iterator](#sample-class-with-explicit-iterator)
 
 ## Goals, Principles, and patterns
@@ -39,7 +41,7 @@ Three main goals:
 main objectives:
 
 - modularity: isolate system into components that interact. Easier to isolate where issues arise when something goes wrong. use python **module** a collection of closely related functions and classes
-- abstraction: distill complicated system into most fundamental types. 
+- abstraction: distill complicated system into most fundamental types.
   - **abstract data types**: (ADT) mathematical model that specifies:
     1. type of data stored
     1. operations supported by ADT
@@ -75,7 +77,6 @@ software engineering design patterns:
 - locator
 - factory method
 
-
 ### Coding Sytle and Documentation
 
 Programs should be easy to read and maintain. Suggestions for coding in python:
@@ -91,7 +92,7 @@ Programs should be easy to read and maintain. Suggestions for coding in python:
 ### Testing and Debugging
 
 - testing plan:
-  - check **special cases**, examples for special cases for sequence are: 
+  - check **special cases**, examples for special cases for sequence are:
     - sequence has zero length
     - sequence has one element
     - all elements of sequence are same
@@ -104,10 +105,10 @@ Programs should be easy to read and maintain. Suggestions for coding in python:
     - **stubbing**: replace lower-level component with a **stub** (replacement for component that simulates functionality of original) * **bottom up**: lower-level components written before higher level components. Use **unit testing** to check each component
     - **regression testing**: all previous tests re-executed to ensure changes to the software do not introduce new bugs
 
-  - **debugging**: 
+  - **debugging**:
     - **print**: statements simplest form of debugging
     - **debugger**:  specialied environment for monitoring
-      the execution of a program. 
+      the execution of a program.
       - **breakpoint** insertion withing the code
 
 ## Class Definitions
@@ -118,9 +119,9 @@ Programs should be easy to read and maintain. Suggestions for coding in python:
 - **attributes** used by class to store state information
 - **attributes** are also known as **fields**, **instance variables**, or **data members**
 
-**Example Class**
+### Example Class Iterator Class
 
-```python 
+```python
 class CreditCard:
   """A consumer credit card"""
     def __init__(self, customer, bank, acnt, limit):
@@ -163,7 +164,7 @@ class CreditCard:
         if price + self._banance > self._limit:
            return False
         else:
-           retrun True 
+           retrun True
 
     def make_payment(self, amount):
         """process customer payment that reduces balance."""
@@ -187,8 +188,8 @@ cc = CreditCard('John Doe', '1st Bank', '1002 3004 4050 4030', 1000)
 
 single leading underscore in the name implies that the method is intended for **nonpublic**
 
-- better to make data members nonpublic by default: 
-  - provide appropriate update methods 
+- better to make data members nonpublic by default:
+  - provide appropriate update methods
 
 ### Testing the Class
 
@@ -203,7 +204,7 @@ Example operators:
 
 - \_\_mul\_\_: '*' (i.e. multiply)
 - \_\_rmul\_\_: '*' (i.e. right multiply)
-  - mixed operations of existing class (if it doesn't define the behavior) with the newly created class 
+  - mixed operations of existing class (if it doesn't define the behavior) with the newly created class
 - \_\_add\_\_: '+' (i.e. add)
 
 ### non-operator overloading methods
@@ -215,46 +216,46 @@ Other methods determine how a class can be converted to a boolean, float or othe
 
 ### overloading methods
 
-| Common Syntax | Method Form |
-|--------|--------|
-|  a + b | a.\_\_add\_\_(b); or b.\_\_radd\_\_(a) |
-|  a - b | a.\_\_sub\_\_(b); or b.\_\_rsub\_\_(a) |
-|  a * b | a.\_\_mul\_\_(b); or b.\_\_rmul\_\_(a) |
-|  a / b | a.\_\_truediv\_\_(b); or b.\_\_rtruediv\_\_(a) |
-|  a // b | a.\_\_floordiv\_\_(b); or b.\_\_rfloordiv\_\_(a) |
-|  a % b | a.\_\_mod\_\_(b); or b.\_\_rmod\_\_(a) |
-|  a ** b | a.\_\_pow\_\_(b); or b.\_\_rpow\_\_(a) |
-|  a << b | a.\_\_lshift\_\_(b); or b.\_\_rlshift\_\_(a) |
-|  a >> b | a.\_\_rrshift\_\_(b); or b.\_\_rrshift\_\_(a) |
-|  a & b | a.\_\_and\_\_(b); or b.\_\_rand\_\_(a) |
-|  a ^ b | a.\_\_xor\_\_(b); or b.\_\_rxor\_\_(a) |
-|  a &#124;  b | a.\_\_or\_\_(b); or b.\_\_ror\_\_(a) |
-|  a +=  b | a.\_\_isadd\_\_(b) |
-|  a -=  b | a.\_\_issub\_\_(b) |
-|  a *=  b | a.\_\_ismul\_\_(b) |
-|  +a | a.\_\_pos\_\_(b) |
-|  -a | a.\_\_neg\_\_(b) |
-|  abs(a) | a.\_\_abs\_\_() |
-|  a < b | a.\_\_lt\_\_(b) |
-|  a > b | a.\_\_gt\_\_(b) |
-|  a <= b | a.\_\_le\_\_(b) |
-|  a >= b | a.\_\_ge\_\_(b) |
-|  a == b | a.\_\_eq\_\_(b) |
-|  a != b | a.\_\_neq\_\_(b) |
-|  v in a | a.\_\_contains\_\_(v) |
-|  a[k] | a.\_\_getitem\_\_(k) |
-|  a[k]=v | a.\_\_setitem\_\_(k) |
-|  del a[k] | a.\_\_delitem\_\_(k) |
-|  a(arg1, arg2, ...) | a.\_\_call\_\_(arg1, arg2, ...) |
-|  len(a) | a.\_\_len\_\_() |
-|  hash(a) | a.\_\_hash\_\_() |
-|  iter(a) | a.\_\_iter\_\_() |
-|  bool(a) | a.\_\_bool\_\_() |
-|  float(a) | a.\_\_float\_\_() |
-|  int(a) | a.\_\_int\_\_() |
-|  repr(a) | a.\_\_repr\_\_() |
-|  reversed(a) | a.\_\_reversed\_\_() |
-|  str(a) | a.\_\_str\_\_() |
+| Common Syntax      | Method Form                                      |
+| ------------------ | ------------------------------------------------ |
+| a + b              | a.\_\_add\_\_(b); or b.\_\_radd\_\_(a)           |
+| a - b              | a.\_\_sub\_\_(b); or b.\_\_rsub\_\_(a)           |
+| a * b              | a.\_\_mul\_\_(b); or b.\_\_rmul\_\_(a)           |
+| a / b              | a.\_\_truediv\_\_(b); or b.\_\_rtruediv\_\_(a)   |
+| a // b             | a.\_\_floordiv\_\_(b); or b.\_\_rfloordiv\_\_(a) |
+| a % b              | a.\_\_mod\_\_(b); or b.\_\_rmod\_\_(a)           |
+| a ** b             | a.\_\_pow\_\_(b); or b.\_\_rpow\_\_(a)           |
+| a << b             | a.\_\_lshift\_\_(b); or b.\_\_rlshift\_\_(a)     |
+| a >> b             | a.\_\_rrshift\_\_(b); or b.\_\_rrshift\_\_(a)    |
+| a & b              | a.\_\_and\_\_(b); or b.\_\_rand\_\_(a)           |
+| a ^ b              | a.\_\_xor\_\_(b); or b.\_\_rxor\_\_(a)           |
+| a &#124;  b        | a.\_\_or\_\_(b); or b.\_\_ror\_\_(a)             |
+| a +=  b            | a.\_\_isadd\_\_(b)                               |
+| a -=  b            | a.\_\_issub\_\_(b)                               |
+| a *=  b            | a.\_\_ismul\_\_(b)                               |
+| +a                 | a.\_\_pos\_\_(b)                                 |
+| -a                 | a.\_\_neg\_\_(b)                                 |
+| abs(a)             | a.\_\_abs\_\_()                                  |
+| a < b              | a.\_\_lt\_\_(b)                                  |
+| a > b              | a.\_\_gt\_\_(b)                                  |
+| a <= b             | a.\_\_le\_\_(b)                                  |
+| a >= b             | a.\_\_ge\_\_(b)                                  |
+| a == b             | a.\_\_eq\_\_(b)                                  |
+| a != b             | a.\_\_neq\_\_(b)                                 |
+| v in a             | a.\_\_contains\_\_(v)                            |
+| a[k]               | a.\_\_getitem\_\_(k)                             |
+| a[k]=v             | a.\_\_setitem\_\_(k)                             |
+| del a[k]           | a.\_\_delitem\_\_(k)                             |
+| a(arg1, arg2, ...) | a.\_\_call\_\_(arg1, arg2, ...)                  |
+| len(a)             | a.\_\_len\_\_()                                  |
+| hash(a)            | a.\_\_hash\_\_()                                 |
+| iter(a)            | a.\_\_iter\_\_()                                 |
+| bool(a)            | a.\_\_bool\_\_()                                 |
+| float(a)           | a.\_\_float\_\_()                                |
+| int(a)             | a.\_\_int\_\_()                                  |
+| repr(a)            | a.\_\_repr\_\_()                                 |
+| reversed(a)        | a.\_\_reversed\_\_()                             |
+| str(a)             | a.\_\_str\_\_()                                  |
 
 **len()**: relies on specially named method __len__() to return the
 length of an object. len(foo) actually calls foo.__len__()
@@ -264,7 +265,6 @@ NOTE: [\_\_str\_\_ vs \_\_rep\_\_](https://stackoverflow.com/questions/1436703/d
 - \_\_repr\_\_ goal is to be unambiguous
 - \_\_str\_\_ goal is to be readable
 
-
 #### Implied methods
 
 **exception** is raised by standard method relying upon special method that is not implemented by user defined class
@@ -273,14 +273,14 @@ NOTE: [\_\_str\_\_ vs \_\_rep\_\_](https://stackoverflow.com/questions/1436703/d
   a + b  # class must have__radd__ or __add__ or an exception will be raised
 ```
 
-**\_\_lt\_\_** method will support a < b and indirectly a > b. Having \_\_lt\_\_ and \_\_gt\_\_ will not imply \_\_ge\_\_ automatically.
+- **\_\_lt\_\_** method will support a < b and indirectly a > b. Having \_\_lt\_\_ and \_\_gt\_\_ will not imply \_\_ge\_\_ automatically.
 
-**\_\_eq\_\_** if not implemented an object can be compared against itself via the **a** is **b** 
+- **\_\_eq\_\_** if not implemented an object can be compared against itself via the **a** is **b**
 method. The a == b will take on behavior of **a** is **b**.
 
-**\_\_len\_\_** and **\_\_getitem\_\_** commands are implemented a default iteration class is povided automatically
+- **\_\_len\_\_** and **\_\_getitem\_\_** commands are implemented a default iteration class is povided automatically
 
-**\_\_eq\_\_** implemented does not imply that **\_\_neq\_\_** is implemented
+- **\_\_eq\_\_** implemented does not imply that **\_\_neq\_\_** is implemented
 
 undefined **\_\_bool\_\_** method evaluates to False for None and True for all other objects.  It also evaluates to False for objects that have \_\_len\_\_ value of zero and True otherwise.
 
