@@ -369,10 +369,3 @@ class SequenceIterator():
 
 ```python
 ```
-
-
-what is | happening here| I am fine
----------|----------|---------
- A1 | howdy dooody | C1
- A2 | howdy dooody             | C2
- A3 | howdy dooody | C3
