@@ -652,8 +652,7 @@ graph TD;
 - **alias** assignment statement makes an alias for the object
   - foo = bar
   - no **copy** of the original is made
-
-- **shallow copy** made by list() constructor. New list is initalized so that its contents are precisely the smae as the original sequence 
+- **shallow copy** made by list() constructor. New list is initalized so that its contents are precisely the smae as the original sequence
   - lists are referential, so new list represents a sequence of references to the same elements as the first
   - elements can be added or removed, however shallow copy list can be impacted by changes made to original objects
 
