@@ -34,6 +34,11 @@
           - [Linear-Time Algorithm](#linear-time-algorithm)
           - [Three-Way Set Disjointness](#three-way-set-disjointness)
     - [Useful formulas](#useful-formulas)
+  - [Simple Justification Techniques](#simple-justification-techniques)
+    - [By Example](#by-example)
+    - ["Contra" Attack](#%22contra%22-attack)
+    - [Induction](#induction)
+    - [Loop Invariants](#loop-invariants)
 
 ## Algorithm Analysis
 
@@ -240,7 +245,6 @@ A program can be asymptotically better than another algorithm even though it can
 
 Maximum problem that can be solved
 
-
 Running Time $\mu$s| 1 second | 1 minute | 1 hour
 ---------|----------|---------|----------|-------
  $400n$ | 2500 | 150,000 | 9,000,000
@@ -330,10 +334,52 @@ def disjoint1(A, B, C):
     return True
 ```
 
+####### Sorting as a Problem-Solving Tool
 
-####### Disjontness $O(n^2)
+```python
+# sorting is O(n log n)
+def unique2(S):
+  temp = sorted(S)
+  for j in range(1, len(temp)):
+    if S[j-1] == S[j]
+      return False
+    return True
+```
 
 ### Useful formulas
 
 - Harmonic number is $O(log\ n)$
-  - $H_n = \Sigma_{j=1}^n \frac{1}{j}$ 
+  - $H_n = \Sigma_{j=1}^n \frac{1}{j}$
+
+## Simple Justification Techniques
+
+### By Example
+
+provide **example** to either support or counter the argument. Example arguments
+
+- there is an element x in a set S that has property P
+- every number of the form $2^i$ is prime
+
+### "Contra" Attack
+
+**contrapositive** looking through a negative mirror. if p is true then q is true. We try to establish if q is not true then p is not true
+
+**contradiction** establish that statement q is true by first supposing that q is false and then showing that the assumption leads to a contradiction)
+
+**De Morgan's law** helps to deal with negations. for example "p or q" is the same as "not p and not q"
+
+### Induction
+
+**induction** shows that for any $n \ge 1$ there is a finite sequence of implications that starts with something known to be true and ultimately leads to showing that q(n) is true.
+
+- show $q(n)$ is true for $k=1$
+  - possibly show that it is true for some other values $n = 2, 3,...,k$ for some constant $k$
+- Justify that the inductive step is true for $n>k$
+
+### Loop Invariants
+
+**loop invariant** prove some statement $L$ is true. We defined $L$ in terms of a series of smaller statements
+
+1. the initial clam, $L_0$ is true before the loop begins
+1. If $L_{j-1}$ is true before the iteration j, then $L_j$ will be true after iteration j
+1. the final statement $L_k$ implies the desired statement $L$ to be true
